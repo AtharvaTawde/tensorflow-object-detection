@@ -10,14 +10,6 @@ function App() {
   const webcam = useRef(null);
   const canvas = useRef(null);
 
-  const runCoco = async () => {
-    const net = await cocossd.load();
-
-    setInterval(() => {
-      detect(net);
-    }, 10);
-  };
-
   const detect = async (net) => {
     if (
       typeof webcam.current !== "undefined" &&
@@ -44,7 +36,14 @@ function App() {
   };
 
   useEffect(() => {
-    runCoco();
+    const run = async () => {
+      const net = await cocossd.load();
+
+      setInterval(() => {
+        detect(net);
+      }, 10);
+    };
+    run();
   }, []);
 
   const w = 640 * 1.25;
